@@ -4,21 +4,25 @@ import './App.css'
 import AppLayout from './Layout/AppLayout'
 import TaskList from './pages/TaskList'
 import AddTask from './pages/AddTask'
+import { GlobalProvider } from './context/GlobalContext'
 function App() {
 
 
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route element={<AppLayout />}>
-            <Route path='/' element={<TaskList />} />
-            <Route path='/add-task' element={<AddTask />} />
+      <GlobalProvider>
 
-          </Route>
-        </Routes>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<AppLayout />}>
+              <Route path='/' element={<TaskList />} />
+              <Route path='/add-task' element={<AddTask />} />
 
-      </BrowserRouter>
+            </Route>
+          </Routes>
+
+        </BrowserRouter>
+      </GlobalProvider>
 
     </>
   )
