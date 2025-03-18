@@ -3,7 +3,6 @@ import { useEffect, useState } from "react"
 
 export default function useTasks() {
     const [tasks, setTasks] = useState([])
-    console.log(tasks);
 
     useEffect(() => {
         const fetchTasks = async () => {
