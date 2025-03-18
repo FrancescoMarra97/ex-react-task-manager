@@ -5,14 +5,18 @@ export default function AppLayout() {
 
     return (
         <>
-            <header className="d-flex justify-item-center">
+            <header className="bg-dark text-white py-3">
                 <nav>
-                    <ul className="d-flex list-unstyled">
-                        <li className="nav-item  p-1">
-                            <NavLink to="/">Lista Task</NavLink >
+                    <ul className="d-flex justify-content-center list-unstyled mb-0">
+                        <li className="nav-item mx-3">
+                            <NavLink to="/" className="nav-link text-white text-decoration-none">
+                                Lista Task
+                            </NavLink>
                         </li>
-                        <li className="nav-item p-1">
-                            <NavLink to="/add-task" >Aggiungi Task</NavLink >
+                        <li className="nav-item mx-3">
+                            <NavLink to="/add-task" className="nav-link text-white text-decoration-none">
+                                Aggiungi Task
+                            </NavLink>
                         </li>
                     </ul>
                 </nav>
