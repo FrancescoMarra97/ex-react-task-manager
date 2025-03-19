@@ -37,7 +37,27 @@ export default function useTasks() {
         }
     }
 
-    const removeTask = () => { }
+    const removeTask = async (taskId) => {
+        try {
+            const res = await fetch(import.meta.env.VITE_API_URL + `/tasks/${taskId}`, {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            const data = await res.json()
+
+            if (data.success) {
+                setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId))
+                alert("Task eliminata con Successo")
+            } else {
+                throw new Error("Errore nell'eliminiazione della task");
+            }
+        } catch (error) {
+            console.error("Errore", error)
+            alert("Si è verificato un errore durante l'eliminazione del task: " + error.message)
+        }
+    }
 
     const updateTask = () => { }
 

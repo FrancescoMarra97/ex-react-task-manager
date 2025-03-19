@@ -4,7 +4,7 @@ import GlobalContext from "../context/GlobalContext";
 
 export default function TaskDetail() {
     const { id } = useParams()
-    const { tasks } = useContext(GlobalContext)
+    const { tasks, removeTask } = useContext(GlobalContext)
     const navigate = useNavigate();
 
 
