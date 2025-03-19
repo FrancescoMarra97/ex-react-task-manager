@@ -1,8 +1,10 @@
 import { useRef, useState, useMemo } from "react"
+import useTasks from "../hooks/useTasks";
 const symbols = "!@#$%^&*()-_=+[]{}|;:'\\\",.<>?/`~";
 
 export default function AddTask() {
 
+    const { addTask } = useTasks()
     const [title, setTitle] = useState("")
     let descriptionRef = useRef(null)
     let statusRef = useRef(null)
@@ -15,22 +17,26 @@ export default function AddTask() {
 
     }, [title])
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         let description = descriptionRef.current.value
         let status = statusRef.current.value
         if (isTitleValid) {
-            console.log("task aggiunto",
-                {
-                    title,
-                    description,
-                    status
-                }
-
-            )
-            setTitle("")
-            descriptionRef.current.value = ""
-            statusRef.current.value = "To do"
+            const task = {
+                title,
+                description,
+                status
+            }
+            console.log("task aggiunto", task)
+            try {
+                await addTask(task)
+                setTitle("")
+                descriptionRef.current.value = ""
+                statusRef.current.value = "To do"
+                alert("Task aggiunto con successo!")
+            } catch (error) {
+                alert(`Errore durante la creazione del task: ${error.message}`)
+            }
         } else {
             alert("Errore: Compilare il form correttamemnte")
         }
