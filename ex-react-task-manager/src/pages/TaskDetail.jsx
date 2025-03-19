@@ -22,9 +22,14 @@ export default function TaskDetail() {
         );
     }
 
-    const handleDelete = () => {
-        console.log("Elimino task")
-        navigate("/")
+    const handleDelete = async () => {
+        try {
+            await removeTask(task.id)
+            console.log("Elimino task")
+            navigate("/")
+        } catch (error) {
+            console.error("Errore nell'eliminazione della task", error);
+        }
 
     }
 

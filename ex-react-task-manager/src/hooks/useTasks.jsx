@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react"
 
 
+
 export default function useTasks() {
     const [tasks, setTasks] = useState([])
+
 
     useEffect(() => {
         const fetchTasks = async () => {
@@ -27,8 +29,9 @@ export default function useTasks() {
                 body: JSON.stringify(newTask)
             })
             const data = await res.json();
+            console.log("Risposta API:", data);
             if (data.success) {
-                setTasks((prevTasks) => [...prevTasks, data.task])
+                setTasks((prevTasks) => [...prevTasks, data.task]);
             } else {
                 throw new Error("Errore")
             }
@@ -36,6 +39,7 @@ export default function useTasks() {
             console.error("Errore durante la creazione del task", error);
         }
     }
+
 
     const removeTask = async (taskId) => {
         try {

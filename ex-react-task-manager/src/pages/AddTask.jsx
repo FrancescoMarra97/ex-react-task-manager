@@ -1,9 +1,11 @@
 import { useRef, useState, useMemo } from "react"
 import useTasks from "../hooks/useTasks";
+import { useNavigate } from "react-router-dom";
 const symbols = "!@#$%^&*()-_=+[]{}|;:'\\\",.<>?/`~";
 
 export default function AddTask() {
 
+    const navigate = useNavigate()
     const { addTask } = useTasks()
     const [title, setTitle] = useState("")
     let descriptionRef = useRef(null)
@@ -34,6 +36,7 @@ export default function AddTask() {
                 descriptionRef.current.value = ""
                 statusRef.current.value = "To do"
                 alert("Task aggiunto con successo!")
+                navigate("/")
             } catch (error) {
                 alert(`Errore durante la creazione del task: ${error.message}`)
             }
