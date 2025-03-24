@@ -63,7 +63,31 @@ export default function useTasks() {
         }
     }
 
-    const updateTask = () => { }
+    const updateTask = async (updatedTask) => {
+        try {
+            const res = await fetch(import.meta.env.VITE_API_URL + `/tasks/${updatedTask.id}`, {
+                method: "PUT",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updatedTask)
+            })
+            const data = await res.json()
+
+            if (result.success) {
+                setTasks((prevTasks) =>
+                    prevTasks.map((task) =>
+                        task.id === updatedTask.id ? data.task : task
+                    )
+                );
+                console.log("Task aggiornato con successo");
+            } else {
+                throw new Error(data.message);
+            }
+        } catch (error) {
+            console.error("Errore nell'aggiornamento del task", error);
+        }
+    }
+
+
 
     return {
         tasks,
