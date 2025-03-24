@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-const Modal = ({ title, content, show, onClose, onConfirm, confirmText = "Conferma" }) => {
+const Modal = ({ title, content, show, onClose, onConfirm, confirmText = "Conferma", isDelete = false }) => {
     if (!show) return null
 
     return ReactDOM.createPortal(
@@ -17,12 +17,12 @@ const Modal = ({ title, content, show, onClose, onConfirm, confirmText = "Confer
                     <button className="btn btn-secondary" onClick={onClose}>
                         Annulla
                     </button>
-                    <button className="btn btn-danger" onClick={onConfirm}>
+                    <button className={`btn ${isDelete ? 'btn-danger' : 'btn-success'}`} onClick={onConfirm}>
                         {confirmText}
                     </button>
                 </div>
             </div>
-        </div>,
+        </div >,
         document.getElementById("modal-root")
     );
 };
