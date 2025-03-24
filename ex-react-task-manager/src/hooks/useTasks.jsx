@@ -72,7 +72,7 @@ export default function useTasks() {
             })
             const data = await res.json()
 
-            if (result.success) {
+            if (data.success) {
                 setTasks((prevTasks) =>
                     prevTasks.map((task) =>
                         task.id === updatedTask.id ? data.task : task
