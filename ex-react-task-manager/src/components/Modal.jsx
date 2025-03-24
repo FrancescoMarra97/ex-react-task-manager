@@ -11,7 +11,7 @@ const Modal = ({ title, content, show, onClose, onConfirm, confirmText = "Confer
                     <h5>{title}</h5>
                 </div>
                 <div className="modal-body">
-                    <p>{content}</p>
+                    <div>{content}</div>
                 </div>
                 <div className="modal-footer">
                     <button className="btn btn-secondary" onClick={onClose}>

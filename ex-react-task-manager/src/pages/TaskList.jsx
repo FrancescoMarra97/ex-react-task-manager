@@ -1,9 +1,14 @@
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import GlobalContext from "../context/GlobalContext"
 import TaskRow from "../components/TaskRow"
 
 export default function TaskList() {
     const { tasks } = useContext(GlobalContext)
+
+    useEffect(() => {
+        console.log(tasks)
+    }, [tasks]);
+
 
     return (
         <div className="container mt-4">
