@@ -1,6 +1,7 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import GlobalContext from "../context/GlobalContext";
+import Modal from "../components/Modal";
 
 export default function TaskDetail() {
     const { id } = useParams()
@@ -9,6 +10,8 @@ export default function TaskDetail() {
 
 
     const task = tasks.find(task => task.id.toString() === id) //task con id corrispondente
+
+    const [showModal, setShowModal] = useState(false)
 
     if (!task) {
         return (
@@ -26,6 +29,7 @@ export default function TaskDetail() {
         try {
             await removeTask(task.id)
             console.log("Elimino task")
+            setShowModal(false)
             navigate("/")
         } catch (error) {
             console.error("Errore nell'eliminazione della task", error);
@@ -33,6 +37,13 @@ export default function TaskDetail() {
 
     }
 
+    const handleModalClose = () => {
+        setShowModal(false);
+    }
+
+    const handleModalConfirm = () => {
+        handleDelete();
+    }
     return (
         <div className="container mt-5">
             <h2>Dettaglio Task</h2>
@@ -41,8 +52,15 @@ export default function TaskDetail() {
                 <p><strong>Descrizione:</strong> {task.description}</p>
                 <p><strong>Stato:</strong> {task.status}</p>
                 <p><strong>Data di creazione:</strong> {new Date(task.createdAt).toLocaleDateString()}</p>
-                <button className="btn btn-danger mt-3" onClick={handleDelete}>Elimina Task</button>
+                <button className="btn btn-danger mt-3" onClick={() => setShowModal(true)}>Elimina Task</button>
             </div>
+            <Modal
+                title="Conferma eliminazione"
+                content={`Sei sicuro di voler eliminare il task: "${task.title}"?`}
+                show={showModal}
+                onClose={handleModalClose}
+                onConfirm={handleModalConfirm}
+            />
         </div>
     )
 }
