@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useState } from "react"
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
 import GlobalContext from "../context/GlobalContext"
 import TaskRow from "../components/TaskRow"
 
@@ -7,6 +7,8 @@ export default function TaskList() {
     const [sortBy, setSortBy] = useState("createdAt")
     const [sortOrder, setSortOrder] = useState(1)
 
+    const [searchQuery, setSearchQuery] = useState("")
+    const searchInputRef = useRef(null)
     useEffect(() => {
         console.log(tasks)
     }, [tasks]);
@@ -20,11 +22,29 @@ export default function TaskList() {
         }
     }
 
+    function debounce(callback, delay) {
+        let timer;
+        return (value) => {
+            clearTimeout(timer)
+            timer = setTimeout(() => {
+                callback(value)
+            }, delay)
+        }
+    }
+
+    const handleSearch = useCallback(
+        debounce((value) => {
+            setSearchQuery(value)
+        }, 500),
+        []
+    )
     const sortedTasks = useMemo(() => {
 
+        const filteredTasks = tasks.filter((task) =>
+            task.title.toLowerCase().includes(searchQuery.toLowerCase())
+        )
         const statusOrder = { "To do": 0, "Doing": 1, "Done": 2 };
-
-        return [...tasks].sort((a, b) => {
+        return filteredTasks.sort((a, b) => {
             let valueA = a[sortBy]
             let valueB = b[sortBy]
             if (sortBy === "title") {
@@ -38,10 +58,14 @@ export default function TaskList() {
             }
             return 0
         })
-    }, [tasks, sortBy, sortOrder])
+    }, [tasks, sortBy, sortOrder, searchQuery])
     return (
         <div className="container mt-4">
             <h1 className="text-center mb-4">Lista di task</h1>
+            <input type="text"
+                className="form-control mb-3"
+                ref={searchInputRef}
+                onChange={(e) => handleSearch(e.target.value)} />
             <table className="table table-striped table-bordered">
                 <thead className="table-dark">
                     <tr>
